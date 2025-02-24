@@ -6,6 +6,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -17,18 +18,17 @@ public class SecurityConfig {
     @Bean
     protected SecurityFilterChain filter(HttpSecurity http) throws Exception {
         return http
-                .csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/").hasAnyRole("listar", "admin")
-                .requestMatchers("/criar", "/excluir", "/preparaAlterar", "/alterar").hasRole("admin")
-                .requestMatchers("/mostrar").authenticated()
-                .anyRequest().denyAll()
-                .and()
-                .formLogin()
-                .loginPage("/login.html").permitAll()
-                .and()
-                .logout().permitAll()
-                .and()
+                .authorizeHttpRequests(
+                    auth -> {
+                        auth.requestMatchers("/").hasAnyRole("listar", "admin");
+                        auth.requestMatchers("/criar", "/excluir", "/alterar", "/preparaAlterar").hasRole("admin");
+                        auth.anyRequest().denyAll();
+                    }
+                ).csrf(AbstractHttpConfigurer::disable)
+                .formLogin(
+                    form -> form.loginPage("/login.html").permitAll()
+                )
+                .logout(logout -> logout.permitAll())
                 .build();
     }
 
