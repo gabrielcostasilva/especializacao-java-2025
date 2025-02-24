@@ -9,7 +9,7 @@ A disciplina é ministrada pelo [prof. Gabriel Costa Silva](https://gabrielcosta
 O objetivo geral dessa disciplina é capacitar o estudante para criar aplicações Web funcionais usando Java e o framework Spring Boot. 
 
 ## Tecnologias
-Além do Java e Spring Boot, outras tecnologias que são usadas na disciplina são:
+Além do Java (23) e Spring Boot (3.4.2), outras tecnologias que são usadas na disciplina são:
 - Maven;
 - Git;
 - Bootstrap;
