@@ -22,6 +22,7 @@ public class SecurityConfig {
                     auth -> {
                         auth.requestMatchers("/").hasAnyRole("listar", "admin");
                         auth.requestMatchers("/criar", "/excluir", "/alterar", "/preparaAlterar").hasRole("admin");
+                        auth.requestMatchers("/mostrar").authenticated();
                         auth.anyRequest().denyAll();
                     }
                 ).csrf(AbstractHttpConfigurer::disable)
